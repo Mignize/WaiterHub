@@ -40,7 +40,9 @@ export default function OrderDetailsModal({
         <div className="flex flex-col gap-1">
           <span className="text-sm text-zinc-400">User</span>
           <span className="font-medium">
-            {user ? `${user.name} (${user.email})` : order.user?.email || order.user?.name || '-'}
+            {user
+              ? `${user.name} (${user.email})`
+              : order.user?.email || order.user?.name || 'User eliminated'}
           </span>
         </div>
         <div>

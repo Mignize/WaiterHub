@@ -34,7 +34,7 @@ export default function OrderTable({ orders, products, users, onViewDetails }: O
               order.user?.email ||
               users.find((u) => u.id === order.userId)?.name ||
               users.find((u) => u.id === order.userId)?.email ||
-              '-';
+              'User eliminated';
             return (
               <tr key={order.id} className="border-t border-zinc-800">
                 <td className="py-2 px-4">{order.id}</td>
