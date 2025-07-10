@@ -25,3 +25,7 @@ To run the application locally, you need to set up both the backend and frontend
 ---
 
 For more details, see the documentation in each subdirectory.
+
+### Demo
+
+You can test the app at: https://waiter-hub.vercel.app/
