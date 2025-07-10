@@ -11,6 +11,13 @@ services:
       - pg_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - prisma-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   backend:
     container_name: waiterhub_api
@@ -21,12 +28,37 @@ services:
       - "8080:8080"
     env_file:
       - .env
-    command: sh -c "npm run dev"
+    command: sh -c "npx prisma generate && npm run dev"
+    networks:
+      - prisma-network
     volumes:
       - .:/app
       - /app/node_modules
+      - /app/node_modules/.prisma
     depends_on:
       - db
+
+  prisma-studio:
+    image: node:lts-alpine3.17
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: npx prisma studio --port 5555 --browser none
+    ports:
+      - "5555:5555"
+    env_file:
+      - .env
+    networks:
+      - prisma-network
+    depends_on:
+      db:
+        condition: service_healthy
+      backend:
+        condition: service_started
+
+networks:
+  prisma-network:
+    name: prisma-network
 
 volumes:
   pg_data:
