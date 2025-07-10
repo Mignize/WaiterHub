@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  // output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -25,7 +25,7 @@ model Restaurant {
 model User {
   id           String     @id @default(cuid())
   email        String     @unique
-  passwordHash String
+  password     String
   role         Role
   restaurantId String
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
