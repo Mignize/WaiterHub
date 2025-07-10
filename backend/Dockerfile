@@ -7,7 +7,13 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+
+ARG DATABASE_URL
+
+ENV DATABASE_URL=$DATABASE_URL
+
 RUN npx prisma generate
+
 RUN npm run build
 
 FROM node:24.3.0-alpine3.21 AS production
