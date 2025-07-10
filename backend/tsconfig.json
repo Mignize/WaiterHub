@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
     "target": "es2016",
     "esModuleInterop": true,
     "module": "commonjs",
@@ -13,5 +14,6 @@
     "types": ["node"]
   },
   "include": ["src"],
+  "exclude": ["node_modules", "dist"],
   "files": ["src/types/express.d.ts"]
 }
