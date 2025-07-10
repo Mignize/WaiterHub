@@ -238,11 +238,10 @@ export default function AdminPage() {
           setUserLoading(true);
           await createOrUpdateUser(data, editingUser?.id);
           setUserLoading(false);
-          setUserModalOpen(false);
-          setEditingUser(null);
         }}
         initialUser={editingUser}
         loading={userLoading}
+        userIdActual={user?.id}
       />
       <DeleteConfirmModal
         open={!!userDelete}

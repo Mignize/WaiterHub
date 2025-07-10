@@ -9,6 +9,7 @@ interface UserFormModalProps {
   onSubmit: (user: User) => void;
   initialUser?: User | null;
   loading?: boolean;
+  userIdActual?: string;
 }
 
 export default function UserFormModal({
@@ -17,6 +18,7 @@ export default function UserFormModal({
   onSubmit,
   initialUser,
   loading,
+  userIdActual,
 }: UserFormModalProps) {
   const {
     register,
@@ -80,6 +82,7 @@ export default function UserFormModal({
           <select
             className="w-full rounded-lg bg-zinc-800 border border-zinc-700 px-3 py-2 text-zinc-100"
             {...register('role', { required: 'Role is required' })}
+            disabled={!!(initialUser && userIdActual && initialUser.id === userIdActual)}
           >
             <option value="admin">Admin</option>
             <option value="waiter">Waiter</option>
