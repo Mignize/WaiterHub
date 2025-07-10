@@ -33,7 +33,7 @@ export function useWaiterData(token?: string | null) {
   }, [fetchAll]);
 
   const createOrder = async (orderData: {
-    board: number;
+    board: string;
     items: { productId: string; quantity: number }[];
   }) => {
     if (!token) return false;

@@ -13,7 +13,7 @@ export default function RoleRedirect() {
     return <Navigate to="/admin" />;
   }
 
-  if (user.role === 'user') {
+  if (user.role === 'waiter') {
     return <Navigate to="/waiter" />;
   }
 
