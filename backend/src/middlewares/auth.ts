@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { Role } from '@/generated/prisma';
+import { Role } from '@prisma/client';
 import { JwtPayload } from '@/types/jwt';
 
 export const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {

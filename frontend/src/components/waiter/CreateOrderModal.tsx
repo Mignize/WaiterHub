@@ -8,7 +8,7 @@ interface CreateOrderModalProps {
   open: boolean;
   onClose: () => void;
   onSubmit: (data: {
-    board: number;
+    board: string;
     items: { productId: string; quantity: number }[];
     additionalNotes?: string;
   }) => void;
@@ -16,13 +16,13 @@ interface CreateOrderModalProps {
 }
 
 interface FormValues {
-  board: number;
+  board: string;
   items: { productId: string; quantity: number }[];
   additionalNotes?: string;
 }
 
 const EMPTY_ORDER: FormValues = {
-  board: 1,
+  board: '1',
   items: [{ productId: '', quantity: 1 }],
   additionalNotes: '',
 };
