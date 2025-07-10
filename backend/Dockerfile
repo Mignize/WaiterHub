@@ -15,6 +15,8 @@ FROM node:24.3.0-alpine3.21 AS production
 WORKDIR /app
 COPY --from=build /app .
 
+RUN npm pkg delete scripts.prepare
+
 RUN npm install --omit=dev
 
 EXPOSE 8080
