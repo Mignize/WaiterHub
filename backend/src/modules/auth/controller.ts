@@ -33,7 +33,7 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const register = async (req: Request, res: Response) => {
-  const { email, password, role, restaurantId } = req.body;
+  const { name, email, password, role, restaurantId } = req.body;
   if (!email || !password || !role || !restaurantId) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
@@ -42,7 +42,7 @@ export const register = async (req: Request, res: Response) => {
   const passwordHash = await bcrypt.hash(password, 10);
   try {
     const user = await prisma.user.create({
-      data: { email, password: passwordHash, role, restaurantId },
+      data: { name, email, password: passwordHash, role, restaurantId },
       select: { id: true, email: true, role: true, restaurantId: true },
     });
     res.status(201).json(user);

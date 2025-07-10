@@ -2,6 +2,7 @@ import prisma from '@/prisma';
 import { JwtPayload } from '@/types/jwt';
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
+import { Role } from '@prisma/client';
 
 export const getUsers = async (req: Request, res: Response) => {
   try {
@@ -74,7 +75,7 @@ export const editUser = async (req: Request, res: Response) => {
       name,
     } as {
       email: string;
-      role: string;
+      role: Role;
       name: string;
       password?: string;
     };

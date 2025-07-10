@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import prisma from '@/prisma';
 import { JwtPayload } from '@/types/jwt';
+import { OrderStatus } from '@prisma/client';
 
 export const getOrders = async (req: Request, res: Response) => {
   try {
@@ -17,10 +18,12 @@ export const getOrders = async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'limit must be a positive integer between 1 and 100' });
     }
 
+    const statusFilter = status as OrderStatus | undefined;
+
     const orders = await prisma.order.findMany({
       where: {
         restaurantId,
-        ...(status ? { status: String(status) } : {}),
+        ...(statusFilter ? { status: statusFilter } : {}),
       },
       include: {
         items: {
@@ -44,8 +47,8 @@ export const getOrders = async (req: Request, res: Response) => {
 
 export const createOrder = async (req: Request, res: Response) => {
   try {
-    const { restaurantId } = req.user as JwtPayload;
-    const { items } = req.body;
+    const { restaurantId, id } = req.user as JwtPayload;
+    const { items, board } = req.body;
     if (!items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ error: 'Items are required' });
     }
@@ -59,6 +62,8 @@ export const createOrder = async (req: Request, res: Response) => {
             quantity: item.quantity,
           })),
         },
+        board,
+        userId: id,
       },
       include: {
         items: {
@@ -85,7 +90,7 @@ export const completeOrder = async (req: Request, res: Response) => {
         restaurantId,
       },
       data: {
-        status: 'COMPLETED',
+        status: 'closed',
       },
       include: {
         items: {

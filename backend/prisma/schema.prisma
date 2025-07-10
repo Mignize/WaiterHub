@@ -24,12 +24,14 @@ model Restaurant {
 
 model User {
   id           String     @id @default(cuid())
+  name         String
   email        String     @unique
   password     String
   role         Role
   restaurantId String
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @default(now())
 
   orders Order[]
 }
@@ -46,14 +48,17 @@ model Product {
   restaurantId String
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @default(now())
 
   orderItems OrderItem[]
 }
 
 model Order {
   id           String      @id @default(cuid())
+  board        String
   status       OrderStatus @default(open)
   createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @default(now())
   closedAt     DateTime?
   restaurantId String
   userId       String
