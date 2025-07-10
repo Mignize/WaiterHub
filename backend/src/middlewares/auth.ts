@@ -10,8 +10,16 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
   }
   const token = authHeader.split(' ')[1];
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as JwtPayload;
-    req.user = decoded;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as {
+      userId: string;
+      role: Role;
+      restaurantId: string;
+    };
+    req.user = {
+      id: decoded.userId,
+      role: decoded.role,
+      restaurantId: decoded.restaurantId,
+    } as JwtPayload;
     next();
   } catch {
     return res.status(401).json({ error: 'Invalid token' });

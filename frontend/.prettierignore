@@ -1,0 +1,11 @@
+node_modules
+dist
+coverage
+build
+.next
+.turbo
+/migrations
+**/migrations/*.ts
+.prisma/
+prisma/
+src/generated/prisma/**
