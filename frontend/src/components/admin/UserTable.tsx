@@ -4,9 +4,10 @@ interface UserTableProps {
   users: User[];
   onEdit: (user: User) => void;
   onDelete: (user: User) => void;
+  userIdActual?: string;
 }
 
-export default function UserTable({ users, onEdit, onDelete }: UserTableProps) {
+export default function UserTable({ users, onEdit, onDelete, userIdActual }: UserTableProps) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-left bg-zinc-900 rounded-xl overflow-hidden">
@@ -28,9 +29,11 @@ export default function UserTable({ users, onEdit, onDelete }: UserTableProps) {
                 <button className="text-blue-400 hover:underline" onClick={() => onEdit(user)}>
                   Edit
                 </button>
-                <button className="text-red-400 hover:underline" onClick={() => onDelete(user)}>
-                  Delete
-                </button>
+                {user.id !== userIdActual && (
+                  <button className="text-red-400 hover:underline" onClick={() => onDelete(user)}>
+                    Delete
+                  </button>
+                )}
               </td>
             </tr>
           ))}

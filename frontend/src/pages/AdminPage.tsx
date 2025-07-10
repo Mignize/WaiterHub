@@ -156,6 +156,7 @@ export default function AdminPage() {
             setUserModalOpen(true);
           }}
           onDelete={setUserDelete}
+          userIdActual={user?.id}
         />
       </section>
       <section className="mb-10">
