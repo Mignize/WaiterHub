@@ -1,0 +1,5 @@
+npx --no -- lint-staged --cwd backend --config backend/lint-staged.config.js
+
+cd backend
+npm run type-check
+cd -

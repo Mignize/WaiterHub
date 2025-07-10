@@ -1,7 +1,7 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import authRoutes from "./auth/routes";
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import authRoutes from './auth/routes';
 
 dotenv.config();
 
@@ -9,9 +9,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/auth", authRoutes);
+app.use('/auth', authRoutes);
 
-app.get("/", (_, res) => res.send("API is running"));
+app.get('/', (_, res) => res.send('API is running'));
 
 const PORT = process.env.PORT || 8080;
+
+// eslint-disable-next-line no-console
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
