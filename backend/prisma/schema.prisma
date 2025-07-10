@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -12,4 +6,73 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Restaurant {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique // Unique identifier for the restaurant, used in URLs
+  logoUrl     String? // URL of the restaurant's logo
+  styleConfig Json? // Configuration of the restaurant's style (colors, fonts, etc.)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users    User[]
+  products Product[]
+  orders   Order[]
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  passwordHash String
+  role         Role
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  createdAt    DateTime   @default(now())
+
+  orders Order[]
+}
+
+enum Role {
+  admin
+  waiter
+}
+
+model Product {
+  id           String     @id @default(cuid())
+  name         String
+  price        Float
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  createdAt    DateTime   @default(now())
+
+  orderItems OrderItem[]
+}
+
+model Order {
+  id           String      @id @default(cuid())
+  status       OrderStatus @default(open)
+  createdAt    DateTime    @default(now())
+  closedAt     DateTime?
+  restaurantId String
+  userId       String
+  restaurant   Restaurant  @relation(fields: [restaurantId], references: [id])
+  user         User        @relation(fields: [userId], references: [id])
+
+  items OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int     @default(1)
+  product   Product @relation(fields: [productId], references: [id])
+  order     Order   @relation(fields: [orderId], references: [id])
+}
+
+enum OrderStatus {
+  open
+  closed
 }
