@@ -48,7 +48,7 @@ export const getOrders = async (req: Request, res: Response) => {
 export const createOrder = async (req: Request, res: Response) => {
   try {
     const { restaurantId, id } = req.user as JwtPayload;
-    const { items, board } = req.body;
+    const { items, board, additionalNotes } = req.body;
     if (!items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ error: 'Items are required' });
     }
@@ -59,9 +59,10 @@ export const createOrder = async (req: Request, res: Response) => {
         items: {
           create: items.map((item) => ({
             productId: item.productId,
-            quantity: item.quantity,
+            quantity: Number(item.quantity),
           })),
         },
+        additionalNotes,
         board,
         userId: id,
       },

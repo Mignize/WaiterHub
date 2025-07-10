@@ -5,6 +5,7 @@ import authRoutes from './modules/auth/routes';
 import userRoutes from './modules/user/routes';
 import productRoutes from './modules/product/routes';
 import orderRoutes from './modules/order/routes';
+import restaurantRoutes from './modules/restaurant/routes';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/product', productRoutes);
 app.use('/order', orderRoutes);
+app.use('/restaurant', restaurantRoutes);
 
 app.get('/healthz', (req, res) => {
   res.status(200).json({ status: 'ok' });

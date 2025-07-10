@@ -18,7 +18,7 @@ export const getProducts = async (req: Request, res: Response) => {
 
 export const createProduct = async (req: Request, res: Response) => {
   try {
-    const { name, price } = req.body;
+    const { name, price, description } = req.body;
     const { restaurantId } = req.user as JwtPayload;
     if (!name || !price) {
       return res.status(400).json({ error: 'Name and price are required' });
@@ -26,8 +26,9 @@ export const createProduct = async (req: Request, res: Response) => {
     const product = await prisma.product.create({
       data: {
         name,
-        price,
+        price: Number(price),
         restaurantId,
+        description,
       },
     });
     res.status(201).json(product);
@@ -39,7 +40,7 @@ export const createProduct = async (req: Request, res: Response) => {
 export const editProduct = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { name, price } = req.body;
+    const { name, price, description } = req.body;
     const { restaurantId } = req.user as JwtPayload;
     if (!name || !price) {
       return res.status(400).json({ error: 'Name and price are required' });
@@ -51,7 +52,8 @@ export const editProduct = async (req: Request, res: Response) => {
       },
       data: {
         name,
-        price,
+        price: Number(price),
+        description,
       },
     });
     if (!product) {

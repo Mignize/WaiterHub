@@ -30,5 +30,5 @@ export const userSlice = createAppSlice({
   },
 });
 
-export const { setUserData } = userSlice.actions;
+export const { setUserData, logout } = userSlice.actions;
 export const { selectUser } = userSlice.selectors;

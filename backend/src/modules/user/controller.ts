@@ -31,7 +31,7 @@ export const createUser = async (req: Request, res: Response) => {
     const { email, password, role, name } = req.body;
     const { restaurantId } = req.user as JwtPayload;
     if (!email || !password || !role || !name) {
-      return res.status(400).json({ error: 'Email, password, and role are required' });
+      return res.status(400).json({ error: 'Email, password, role and name are required' });
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
