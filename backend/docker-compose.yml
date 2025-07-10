@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:15
+    container_name: waiterhub_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: waiterhub
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    container_name: waiterhub_api
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    command: sh -c "npx prisma migrate dev && npm run dev"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - db
+
+volumes:
+  pg_data:
