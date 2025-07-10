@@ -1,7 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import authRoutes from './auth/routes';
+import authRoutes from './modules/auth/routes';
+import userRoutes from './modules/user/routes';
+import productRoutes from './modules/product/routes';
+import orderRoutes from './modules/order/routes';
 
 dotenv.config();
 
@@ -10,8 +13,13 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
+app.use('/product', productRoutes);
+app.use('/order', orderRoutes);
 
-app.get('/', (_, res) => res.send('API is running'));
+app.get('/healthz', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 
 const PORT = process.env.PORT || 8080;
 
