@@ -6,13 +6,16 @@ WORKDIR /app
 
 COPY package*.json ./
 RUN npm install
-COPY . .
+
+COPY prisma ./prisma
+COPY tsconfig.json .
 
 ARG DATABASE_URL
-
 ENV DATABASE_URL=$DATABASE_URL
 
 RUN npx prisma generate
+
+COPY . .
 
 RUN npm run build
 
@@ -26,4 +29,5 @@ RUN npm pkg delete scripts.prepare
 RUN npm install --omit=dev
 
 EXPOSE 8080
+
 CMD ["sh", "-c", "npx prisma migrate deploy && npm run start"]
